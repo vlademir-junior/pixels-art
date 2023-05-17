@@ -1,14 +1,23 @@
-* {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
+.color {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
 }
 
-.color {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin: 2px;
+#color-palette {
+  margin-bottom: 10px;
+}
+
+#pixel-board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 150px;
+}
+
+.pixel {
+  width: 30px;
+  height: 30px;
   border: 1px solid black;
-  padding: 2px;
+  background-color: white;
+  display: inline-block;
 }

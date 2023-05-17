@@ -1,7 +1,7 @@
 function generateRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
-  for (let i = 0; i < 6; i += 1) {
+  for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
@@ -16,16 +16,10 @@ function createColorDiv(color) {
 }
 
 function updateColorPalette(colorPalette) {
-  const colors = ['black'];
-  for (let i = 0; i < 3; i += 1) {
-    colors.push(generateRandomColor());
-  }
-
-  const colorDivs = colors.map((color) => createColorDiv(color));
+  const colors = ['black', ...Array.from({ length: 3 }, generateRandomColor)];
   colorPalette.innerHTML = '';
-  colorPalette.append(...colorDivs);
+  colors.map(createColorDiv).forEach((colorDiv) => colorPalette.appendChild(colorDiv));
 
-  // Salvar a paleta de cores gerada no localStorage
   localStorage.setItem('colorPalette', JSON.stringify(colors));
 }
 
@@ -34,9 +28,7 @@ function createColorPalette(colors) {
   colorPalette.id = 'color-palette';
 
   colors.forEach((color, index) => {
-    if (index === 0) {
-      color = 'black';
-    }
+    color = index === 0 ? 'black' : color;
     const colorDiv = createColorDiv(color);
     colorPalette.appendChild(colorDiv);
   });
@@ -49,18 +41,35 @@ function insertElementAfterTitle(element) {
   title.insertAdjacentElement('afterend', element);
 }
 
+function createPixelBoard() {
+  const pixelBoard = document.createElement('div');
+  pixelBoard.id = 'pixel-board';
+
+  Array.from({ length: 25 }).forEach(() => {
+    const pixel = document.createElement('div');
+    pixel.classList.add('pixel');
+    pixel.style.backgroundColor = 'white';
+    pixelBoard.appendChild(pixel);
+  });
+
+  return pixelBoard;
+}
+
+function insertPixelBoardAfterColorPalette(pixelBoard) {
+  const colorPalette = document.getElementById('color-palette');
+  colorPalette.insertAdjacentElement('afterend', pixelBoard);
+}
+
 function createPalettes() {
   const storedPalette = localStorage.getItem('colorPalette');
-  let initialColors = ['black'];
-  if (storedPalette) {
-    initialColors = JSON.parse(storedPalette);
-  } else {
-    for (let i = 0; i < 3; i += 1) {
-      initialColors.push(generateRandomColor());
-    }
-  }
+  let initialColors = storedPalette ? JSON.parse(storedPalette) : ['black', ...Array.from({ length: 3 }, generateRandomColor)];
+
   const colorPalette = createColorPalette(initialColors);
   insertElementAfterTitle(colorPalette);
+
+  const pixelBoard = createPixelBoard();
+  insertPixelBoardAfterColorPalette(pixelBoard);
+
   const button = document.createElement('button');
   button.id = 'button-random-color';
   button.textContent = 'Cores aleatórias';
