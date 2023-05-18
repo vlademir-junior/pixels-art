@@ -1,7 +1,7 @@
 function generateRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i += 1) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
@@ -62,7 +62,7 @@ function insertPixelBoardAfterColorPalette(pixelBoard) {
 
 function createPalettes() {
   const storedPalette = localStorage.getItem('colorPalette');
-  let initialColors = storedPalette ? JSON.parse(storedPalette) : ['black', ...Array.from({ length: 3 }, generateRandomColor)];
+  const initialColors = storedPalette ? JSON.parse(storedPalette) : ['black', ...Array.from({ length: 3 }, generateRandomColor)];
 
   const colorPalette = createColorPalette(initialColors);
   insertElementAfterTitle(colorPalette);
@@ -73,7 +73,7 @@ function createPalettes() {
   const button = document.createElement('button');
   button.id = 'button-random-color';
   button.textContent = 'Cores aleatórias';
-  button.addEventListener('click', function () {
+  button.addEventListener('click', function() {
     const colorPalette = document.getElementById('color-palette');
     updateColorPalette(colorPalette);
   });
