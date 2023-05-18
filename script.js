@@ -12,6 +12,12 @@ function createColorDiv(color) {
   colorDiv.classList.add('color');
   colorDiv.style.backgroundColor = color;
   colorDiv.style.border = '1px solid black';
+
+  // Adiciona a classe "selected" apenas ao elemento da cor preta
+  if (color === 'black') {
+    colorDiv.classList.add('selected');
+  }
+
   return colorDiv;
 }
 
@@ -20,8 +26,13 @@ function updateColorPalette(colorPalette) {
   colorPalette.innerHTML = '';
   colors.map(createColorDiv).forEach((colorDiv) => colorPalette.appendChild(colorDiv));
 
+  // Define a cor preta como selecionada novamente ao atualizar a paleta de cores
+  const blackDiv = colorPalette.querySelector('.color');
+  blackDiv.classList.add('selected');
+
   localStorage.setItem('colorPalette', JSON.stringify(colors));
 }
+
 
 function createColorPalette(colors) {
   const colorPalette = document.createElement('div');
@@ -73,7 +84,7 @@ function createPalettes() {
   const button = document.createElement('button');
   button.id = 'button-random-color';
   button.textContent = 'Cores aleatórias';
-  button.addEventListener('click', function() {
+  button.addEventListener('click', function () {
     const colorPalette = document.getElementById('color-palette');
     updateColorPalette(colorPalette);
   });
