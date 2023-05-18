@@ -13,7 +13,6 @@ function createColorDiv(color) {
   colorDiv.style.backgroundColor = color;
   colorDiv.style.border = '1px solid black';
 
-  // Adiciona a classe "selected" apenas ao elemento da cor preta
   if (color === 'black') {
     colorDiv.classList.add('selected');
   }
@@ -26,13 +25,11 @@ function updateColorPalette(colorPalette) {
   colorPalette.innerHTML = '';
   colors.map(createColorDiv).forEach((colorDiv) => colorPalette.appendChild(colorDiv));
 
-  // Define a cor preta como selecionada novamente ao atualizar a paleta de cores
   const blackDiv = colorPalette.querySelector('.color');
   blackDiv.classList.add('selected');
 
   localStorage.setItem('colorPalette', JSON.stringify(colors));
 }
-
 
 function createColorPalette(colors) {
   const colorPalette = document.createElement('div');
@@ -59,14 +56,13 @@ function createPixelBoard() {
   Array.from({ length: 25 }).forEach((_, index) => {
     const pixel = document.createElement('div');
     pixel.classList.add('pixel');
-    pixel.classList.add(`pixel-${index}`); // Adiciona uma classe única para cada pixel
+    pixel.classList.add(`pixel-${index}`);
     pixel.style.backgroundColor = 'white';
     pixelBoard.appendChild(pixel);
   });
 
   return pixelBoard;
 }
-
 
 function insertPixelBoardAfterColorPalette(pixelBoard) {
   const colorPalette = document.getElementById('color-palette');
@@ -86,7 +82,7 @@ function createPalettes() {
   const button = document.createElement('button');
   button.id = 'button-random-color';
   button.textContent = 'Cores aleatórias';
-  button.addEventListener('click', function () {
+  button.addEventListener('click', () => {
     updateColorPalette(colorPalette);
   });
   insertElementAfterTitle(button);
@@ -116,12 +112,10 @@ function fillPixelWithSelectedColor() {
       const selectedColorDiv = document.querySelector('.color.selected');
       const selectedColor = selectedColorDiv.style.backgroundColor;
 
-      // Remove a cor de todos os pixels
       pixels.forEach((p) => {
         p.style.backgroundColor = 'white';
       });
 
-      // Preenche apenas o pixel clicado com a cor selecionada
       pixel.style.backgroundColor = selectedColor;
     });
   });
