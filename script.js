@@ -85,10 +85,27 @@ function createPalettes() {
   button.id = 'button-random-color';
   button.textContent = 'Cores aleatórias';
   button.addEventListener('click', function () {
-    const colorPalette = document.getElementById('color-palette');
     updateColorPalette(colorPalette);
   });
   insertElementAfterTitle(button);
 }
 
+function selectColor() {
+  const colorPalette = document.getElementById('color-palette');
+  colorPalette.addEventListener('click', (event) => {
+    if (event.target.classList.contains('color')) {
+      const selectedColor = event.target.style.backgroundColor;
+      const pixels = document.querySelectorAll('.pixel');
+      pixels.forEach((pixel) => {
+        pixel.style.backgroundColor = selectedColor;
+      });
+      colorPalette.querySelectorAll('.color').forEach((div) => {
+        div.classList.remove('selected');
+      });
+      event.target.classList.add('selected');
+    }
+  });
+}
+
 createPalettes();
+selectColor();
