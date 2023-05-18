@@ -56,15 +56,17 @@ function createPixelBoard() {
   const pixelBoard = document.createElement('div');
   pixelBoard.id = 'pixel-board';
 
-  Array.from({ length: 25 }).forEach(() => {
+  Array.from({ length: 25 }).forEach((_, index) => {
     const pixel = document.createElement('div');
     pixel.classList.add('pixel');
+    pixel.classList.add(`pixel-${index}`); // Adiciona uma classe única para cada pixel
     pixel.style.backgroundColor = 'white';
     pixelBoard.appendChild(pixel);
   });
 
   return pixelBoard;
 }
+
 
 function insertPixelBoardAfterColorPalette(pixelBoard) {
   const colorPalette = document.getElementById('color-palette');
@@ -107,5 +109,24 @@ function selectColor() {
   });
 }
 
+function fillPixelWithSelectedColor() {
+  const pixels = document.querySelectorAll('.pixel');
+  pixels.forEach((pixel) => {
+    pixel.addEventListener('click', () => {
+      const selectedColorDiv = document.querySelector('.color.selected');
+      const selectedColor = selectedColorDiv.style.backgroundColor;
+
+      // Remove a cor de todos os pixels
+      pixels.forEach((p) => {
+        p.style.backgroundColor = 'white';
+      });
+
+      // Preenche apenas o pixel clicado com a cor selecionada
+      pixel.style.backgroundColor = selectedColor;
+    });
+  });
+}
+
 createPalettes();
 selectColor();
+fillPixelWithSelectedColor();
